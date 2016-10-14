@@ -5,7 +5,7 @@
 #-------------------------------------------------------------------------------
 #  
 # This script will install ODOO Server on
-# clean Ubuntu 14.04 Server
+# clean Ubuntu 14.04 Server AMD64
 #-------------------------------------------------------------------------------
 # USAGE:
 #
@@ -22,6 +22,7 @@ OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
 
 #Enter version for checkout "9.0" for version 9.0,"8.0" for version 8.0, "7.0 (version 7), "master" for trunk
 OE_VERSION="9.0"
+PG_VERSION="9.4"
 
 #set the superadmin password
 OE_SUPERADMIN="superadminpassword"
@@ -45,10 +46,10 @@ sudo locale-gen en_US.UTF-8
 sudo dpkg-reconfigure locales
 
 echo -e "\n---- Install PostgreSQL Server ----"
-sudo apt-get install postgresql -y
+sudo apt-get install postgresql-$PG_VERSION -y
 
 echo -e "\n---- PostgreSQL $PG_VERSION Settings  ----"
-sudo sed -i s/"#listen_addresses = 'localhost'"/"listen_addresses = '*'"/g /etc/postgresql/9.4/main/postgresql.conf
+sudo sed -i s/"#listen_addresses = 'localhost'"/"listen_addresses = '*'"/g /etc/postgresql/$PG_VERSION/main/postgresql.conf
 
 echo -e "\n---- Creating the ODOO PostgreSQL User  ----"
 sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
@@ -73,10 +74,10 @@ echo -e "\n---- Install tool packages ----"
 sudo apt-get install wget git python-pip python-imaging python-setuptools python-dev libxslt-dev libxml2-dev libldap2-dev libsasl2-dev node-less postgresql-server-dev-all -y
 
 echo -e "\n---- Install wkhtml and place on correct place for ODOO 8 ----"
-sudo wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
-sudo dpkg -i wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
+sudo wget http://download.gna.org/wkhtmltopdf/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb
+sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
 sudo apt-get install -f -y
-sudo dpkg -i wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
+sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
 sudo cp /usr/local/bin/wkhtmltopdf /usr/bin
 sudo cp /usr/local/bin/wkhtmltoimage /usr/bin
 
