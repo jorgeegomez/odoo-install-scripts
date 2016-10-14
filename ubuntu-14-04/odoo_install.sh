@@ -22,7 +22,12 @@ OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
 
 #Enter version for checkout "9.0" for version 9.0,"8.0" for version 8.0, "7.0 (version 7), "master" for trunk
 OE_VERSION="9.0"
+
+# PostgreSQL version. Choose between 9.4, 9.5, 9.6 available for Ubuntu 14.04 from postgresql.org repository
 PG_VERSION="9.4"
+
+# wkhtmltopdf version. See https://github.com/odoo/odoo/wiki/Wkhtmltopdf for recommended versions
+WK_VERSION="0.12.1"
 
 #set the superadmin password
 OE_SUPERADMIN="superadminpassword"
@@ -74,12 +79,11 @@ echo -e "\n---- Install tool packages ----"
 sudo apt-get install wget git python-pip python-imaging python-setuptools python-dev libxslt-dev libxml2-dev libldap2-dev libsasl2-dev node-less postgresql-server-dev-all -y
 
 echo -e "\n---- Install wkhtml and place on correct place for ODOO 8 ----"
-sudo wget http://download.gna.org/wkhtmltopdf/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb
-sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
+sudo wget http://download.gna.org/wkhtmltopdf/0.12/$WK_VERSION/wkhtmltox-${WK_VERSION}_linux-trusty-amd64.deb
+sudo dpkg -i wkhtmltox-${WK_VERSION}_linux-trusty-amd64.deb
 sudo apt-get install -f -y
-sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
-sudo cp /usr/local/bin/wkhtmltopdf /usr/bin
-sudo cp /usr/local/bin/wkhtmltoimage /usr/bin
+sudo ln -s /usr/local/bin/wkhtmltopdf /usr/bin/
+sudo ln -s /usr/local/bin/wkhtmltoimage /usr/bin/
 
 #--------------------------------------------------
 # Install ODOO
