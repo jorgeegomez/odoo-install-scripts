@@ -51,6 +51,9 @@ sudo locale-gen en_US.UTF-8
 sudo dpkg-reconfigure locales
 
 echo -e "\n---- Install PostgreSQL Server ----"
+sudo add-apt-repository "deb https://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+wget --quiet -O - https://postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - 
+sudo apt-get update
 sudo apt-get install postgresql-$PG_VERSION -y
 
 echo -e "\n---- PostgreSQL $PG_VERSION Settings  ----"
